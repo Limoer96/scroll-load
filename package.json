@@ -16,11 +16,11 @@
   "files": [
     "dist"
   ],
-  "homepage": "",
-  "bugs": {},
+  "homepage": "https://github.com/xiaomoer/scroll-load",
+  "bugs": "https://github.com/xiaomoer/scroll-load/issues",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/xiaomoer/scroll-load"
   },
   "author": {
     "name": "limoer",
