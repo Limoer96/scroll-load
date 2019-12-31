@@ -56,9 +56,7 @@ class ScrollLoad extends React.Component {
     render() {
         const { visible } = this.state;
         const { placeholder } = this.props;
-        return (<ReactPlaceHolder ready={visible} customPlaceholder={placeholder}>
-        {this.props.children}
-      </ReactPlaceHolder>);
+        return (React.createElement(ReactPlaceHolder, { ready: visible, customPlaceholder: placeholder }, this.props.children));
     }
 }
 export default ScrollLoad;
