@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-load",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A React Component to lazy load child Component relative to scrolled parent just as a wrapper",
   "main": "dist/index.js",
   "scripts": {
