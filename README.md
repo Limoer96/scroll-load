@@ -52,3 +52,6 @@ render(<App />, document.getElementById('app'))
   offset?: number
 }
 ```
+## 更新日志
+
+见[ChangeLog](./CHANGELOG.md)
