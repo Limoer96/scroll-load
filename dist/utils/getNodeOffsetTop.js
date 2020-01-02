@@ -1,5 +1,5 @@
 export function getNodeOffsetTop(node, parent) {
-    if ('getBoundingClientRect' in document.body) {
+    if ('getBoundingClientRect' in document.documentElement) {
         const vpTopParent = parent.getBoundingClientRect().top;
         const vpTopNode = node.getBoundingClientRect().top;
         return vpTopNode - vpTopParent;

@@ -11,21 +11,23 @@ class ScrollLoad extends React.Component {
         this.state = {
             visible: false,
         };
-        this._setParentScrollop = (height) => {
-            this.parent.scrollTop = height;
-            console.log('height123', this.parent.scrollTop);
-        };
         this.checkVisible = (node, parent) => {
             if (!node || !parent) {
                 this.setState({ visible: true });
                 return noop;
             }
             let { offset } = this.props;
-            if (offset !== undefined && typeof offset !== 'number') {
+            // null or undefined
+            if (offset == undefined) {
+                offset = 0;
+            }
+            if (typeof offset !== 'number') {
                 console.warn(`"offset" can be only used as number, but got"${typeof offset}"`);
                 offset = 0;
             }
             let seenHeight = parent.clientHeight;
+            let currentNode = findDOMNode(this);
+            let offsetTop = getNodeOffsetTop(currentNode, parent);
             return () => {
                 const { visible } = this.state;
                 const scrollTop = parent.scrollTop;
@@ -33,8 +35,6 @@ class ScrollLoad extends React.Component {
                     this.parent.removeEventListener('scroll', this.scrollHandler);
                     return; // 直接返回不执行当次eventListener
                 }
-                let currentNode = findDOMNode(this); // 获取最新的dom结构
-                let offsetTop = getNodeOffsetTop(currentNode, parent);
                 if (offsetTop + offset <= seenHeight + scrollTop) {
                     this.setState({ visible: true });
                 }
