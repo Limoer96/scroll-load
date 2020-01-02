@@ -1,16 +1,18 @@
 export function getNodeOffsetTop(node: HTMLElement, parent: HTMLElement) {
-  if ('getBoundingClientRect' in document.body) {
-    const vpTopParent = parent.getBoundingClientRect().top
-    const vpTopNode = node.getBoundingClientRect().top
+  if ('getBoundingClientRect' in document.documentElement) {
+    const vpTopParent = parent.getBoundingClientRect().top;
+    const vpTopNode = node.getBoundingClientRect().top;
     return vpTopNode - vpTopParent;
   }
+
   const style = (elem: any, prop: string) => {
     if (getComputedStyle !== undefined) {
       return getComputedStyle(elem, null).getPropertyValue(prop);
     }
     return elem.style[prop];
   };
-  const positions = ['relative', 'absolute', 'fixed']
+  const positions = ['relative', 'absolute', 'fixed'];
+
   if (positions.includes(style(parent, 'position'))) {
     let current = node;
     let offsetTop = 0;
