@@ -1,6 +1,12 @@
 export function getNodeOffsetTop(node, parent) {
     if ('getBoundingClientRect' in document.documentElement) {
-        const vpTopParent = parent.getBoundingClientRect().top;
+        let vpTopParent;
+        if (parent === window) {
+            vpTopParent = 0;
+        }
+        else {
+            vpTopParent = parent.getBoundingClientRect().top;
+        }
         const vpTopNode = node.getBoundingClientRect().top;
         return vpTopNode - vpTopParent;
     }
@@ -15,7 +21,6 @@ export function getNodeOffsetTop(node, parent) {
         let current = node;
         let offsetTop = 0;
         while (current && current !== parent) {
-            console.log('current.offsetTop', current.offsetTop);
             offsetTop += current.offsetTop;
             current = current.parentElement;
         }

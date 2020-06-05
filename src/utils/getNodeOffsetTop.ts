@@ -1,28 +1,32 @@
-export function getNodeOffsetTop(node: HTMLElement, parent: HTMLElement) {
+export function getNodeOffsetTop(node: HTMLElement, parent: any) {
   if ('getBoundingClientRect' in document.documentElement) {
-    const vpTopParent = parent.getBoundingClientRect().top;
-    const vpTopNode = node.getBoundingClientRect().top;
-    return vpTopNode - vpTopParent;
+    let vpTopParent
+    if (parent === window) {
+      vpTopParent = 0
+    } else {
+      vpTopParent = parent.getBoundingClientRect().top
+    }
+    const vpTopNode = node.getBoundingClientRect().top
+    return vpTopNode - vpTopParent
   }
 
   const style = (elem: any, prop: string) => {
     if (getComputedStyle !== undefined) {
-      return getComputedStyle(elem, null).getPropertyValue(prop);
+      return getComputedStyle(elem, null).getPropertyValue(prop)
     }
-    return elem.style[prop];
-  };
-  const positions = ['relative', 'absolute', 'fixed'];
+    return elem.style[prop]
+  }
+  const positions = ['relative', 'absolute', 'fixed']
 
   if (positions.includes(style(parent, 'position'))) {
-    let current = node;
-    let offsetTop = 0;
+    let current = node
+    let offsetTop = 0
     while (current && current !== parent) {
-        console.log('current.offsetTop', current.offsetTop)
-        offsetTop += current.offsetTop;
-        current = current.parentElement!;
+      offsetTop += current.offsetTop
+      current = current.parentElement!
     }
-    return offsetTop;
+    return offsetTop
   } else {
-    return node.offsetTop - parent.offsetTop;
+    return node.offsetTop - parent.offsetTop
   }
 }
