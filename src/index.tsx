@@ -14,6 +14,7 @@ interface ScrollLoadState {
 interface ScrollLoadProps {
   placeholder: JSX.Element
   offset?: number
+  onLoad?: (current: Element | Text | null) => void
 }
 
 class ScrollLoad extends React.Component<ScrollLoadProps, ScrollLoadState> {
@@ -50,7 +51,7 @@ class ScrollLoad extends React.Component<ScrollLoadProps, ScrollLoadState> {
       this.setState({ visible: true })
       return noop
     }
-    let { offset } = this.props
+    let { offset, onLoad } = this.props
     // null or undefined
     if (offset == undefined) {
       offset = 0
@@ -79,6 +80,9 @@ class ScrollLoad extends React.Component<ScrollLoadProps, ScrollLoadState> {
         return // 直接返回不执行当次eventListener
       }
       if (offsetTop + offset! <= seenHeight + scrollTop) {
+        if (onLoad && typeof onLoad === 'function') {
+          onLoad(currentNode)
+        }
         this.setState({ visible: true })
       }
     }

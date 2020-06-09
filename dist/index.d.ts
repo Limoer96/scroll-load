@@ -6,6 +6,7 @@ interface ScrollLoadState {
 interface ScrollLoadProps {
     placeholder: JSX.Element;
     offset?: number;
+    onLoad?: (current: Element | Text | null) => void;
 }
 declare class ScrollLoad extends React.Component<ScrollLoadProps, ScrollLoadState> {
     state: ScrollLoadState;

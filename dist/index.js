@@ -16,7 +16,7 @@ class ScrollLoad extends React.Component {
                 this.setState({ visible: true });
                 return noop;
             }
-            let { offset } = this.props;
+            let { offset, onLoad } = this.props;
             // null or undefined
             if (offset == undefined) {
                 offset = 0;
@@ -38,6 +38,9 @@ class ScrollLoad extends React.Component {
                     return; // 直接返回不执行当次eventListener
                 }
                 if (offsetTop + offset <= seenHeight + scrollTop) {
+                    if (onLoad && typeof onLoad === 'function') {
+                        onLoad(currentNode);
+                    }
                     this.setState({ visible: true });
                 }
             };
