@@ -1,3 +1,7 @@
 /// <reference types="react" />
-declare function useVisible(currentElem: React.MutableRefObject<Element | null>): boolean;
+export interface IConfig {
+    offset?: number | number[];
+    onLoad?: () => void;
+}
+declare function useVisible(currentElem: React.MutableRefObject<Element | null>, config: IConfig): boolean;
 export default useVisible;

@@ -1,8 +1,10 @@
 import BaseOberver from './BaseObserver';
 import throttle from 'lodash/throttle';
+import { getOffset } from '../utils/getOffset';
+import execCallback from '../utils/execCallback';
 class RectObserver extends BaseOberver {
-    constructor(current, parent, setVisible) {
-        super(current, parent, setVisible);
+    constructor(current, parent, setVisible, config) {
+        super(current, parent, setVisible, config);
         this.wait = 200;
         this.throttleCheck = throttle(() => this.checkVisible(), this.wait);
     }
@@ -27,9 +29,12 @@ class RectObserver extends BaseOberver {
         else {
             parentRect = parent.getBoundingClientRect();
         }
-        if (currentRect.top <= parentRect.bottom &&
-            currentRect.left <= parentRect.right) {
+        const { offset, onLoad } = this.config;
+        const off = getOffset(offset);
+        if (currentRect.top + off.vertical <= parentRect.bottom &&
+            currentRect.left + off.horizontal <= parentRect.right) {
             this.setVisible(true);
+            execCallback(onLoad);
             this.cancelObservation();
         }
     }

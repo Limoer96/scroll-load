@@ -1,5 +1,8 @@
 import BaseOberver from './BaseObserver'
 import throttle from 'lodash/throttle'
+import { IConfig } from '../hooks/useVisible'
+import { getOffset } from '../utils/getOffset'
+import execCallback from '../utils/execCallback'
 
 interface IParentRect<T> {
   width: T
@@ -16,9 +19,10 @@ class RectObserver extends BaseOberver {
   constructor(
     current: Element,
     parent: Element | Window,
-    setVisible: (visible: boolean) => void
+    setVisible: (visible: boolean) => void,
+    config: IConfig
   ) {
-    super(current, parent, setVisible)
+    super(current, parent, setVisible, config)
   }
   private wait: number = 200
   private throttleCheck: () => void = throttle(
@@ -45,11 +49,14 @@ class RectObserver extends BaseOberver {
     } else {
       parentRect = (parent as Element).getBoundingClientRect()
     }
+    const { offset, onLoad } = this.config
+    const off = getOffset(offset)
     if (
-      currentRect.top <= parentRect.bottom &&
-      currentRect.left <= parentRect.right
+      currentRect.top + off.vertical <= parentRect.bottom &&
+      currentRect.left + off.horizontal <= parentRect.right
     ) {
       this.setVisible(true)
+      execCallback(onLoad)
       this.cancelObservation()
     }
   }
