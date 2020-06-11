@@ -1,4 +1,5 @@
 import BaseOberver from './BaseObserver'
+import throttle from 'lodash/throttle'
 
 interface IParentRect<T> {
   width: T
@@ -19,12 +20,15 @@ class RectObserver extends BaseOberver {
   ) {
     super(current, parent, setVisible)
   }
+  private wait: number = 200
+  private throttleCheck: () => void = throttle(
+    () => this.checkVisible(),
+    this.wait
+  )
   checkVisible() {
     const parent = this.parent
     const currentRect = this.current.getBoundingClientRect()
-    let parentRect:
-      | IParentRect<number>
-      | ClientRect = (parent as Element).getBoundingClientRect()
+    let parentRect: IParentRect<number> | ClientRect
     if (parent === window) {
       const iWidth = (parent as Window).innerWidth
       const iHeight = (parent as Window).innerHeight
@@ -38,9 +42,11 @@ class RectObserver extends BaseOberver {
         x: 0,
         y: 0,
       }
+    } else {
+      parentRect = (parent as Element).getBoundingClientRect()
     }
     if (
-      currentRect.top <= parentRect.bottom ||
+      currentRect.top <= parentRect.bottom &&
       currentRect.left <= parentRect.right
     ) {
       this.setVisible(true)
@@ -49,10 +55,10 @@ class RectObserver extends BaseOberver {
   }
   observe() {
     this.checkVisible()
-    this.parent.addEventListener('scroll', this.checkVisible)
+    this.parent.addEventListener('scroll', this.throttleCheck)
   }
   cancelObservation() {
-    this.parent.removeEventListener('scroll', this.checkVisible)
+    this.parent.removeEventListener('scroll', this.throttleCheck)
   }
 }
 

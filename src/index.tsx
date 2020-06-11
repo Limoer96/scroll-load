@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import useVisible from './hooks/useVisible'
-import { getScrollParent } from './utils/getScrollParent'
 
 interface ScrollLoadProps {
   placeholder: JSX.Element
@@ -9,13 +8,10 @@ interface ScrollLoadProps {
 }
 
 const ScrollLoad: React.FC<ScrollLoadProps> = ({ placeholder, children }) => {
-  const placeholderElement = useRef(null)
-  const parent = getScrollParent(placeholderElement.current!)
-  const visible = useVisible(placeholderElement.current!, parent)
+  const placeholderElem = useRef(null)
+  const visible = useVisible(placeholderElem)
   return (
-    <>
-      {visible ? children : <div ref={placeholderElement}>{placeholder}</div>}
-    </>
+    <>{visible ? children : <div ref={placeholderElem}>{placeholder}</div>}</>
   )
 }
 

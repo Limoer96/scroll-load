@@ -1,22 +1,20 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * get scroll parent element
  * @param element current node
  */
-function getScrollParent(element) {
-    var style = function (elem, prop) {
+export function getScrollParent(element) {
+    const style = (elem, prop) => {
         if (getComputedStyle !== undefined) {
             return getComputedStyle(elem, null).getPropertyValue(prop);
         }
         return elem.style[prop];
     };
-    var overflow = function (node) { return style(node, 'overflow') + style(node, 'overflow-x') + style(node, 'overflow-y'); };
+    const overflow = (node) => style(node, 'overflow') + style(node, 'overflow-x') + style(node, 'overflow-y');
     // 循环判断父节点是否可滚动这里暂不添加，直接去直接父元素
     if (!(element instanceof HTMLElement)) {
         return window;
     }
-    var parent = element;
+    let parent = element;
     while (parent) {
         // 当前节点是body或者document
         if (parent === document.body || parent === document.documentElement) {
@@ -34,4 +32,3 @@ function getScrollParent(element) {
     }
     return window;
 }
-exports.getScrollParent = getScrollParent;

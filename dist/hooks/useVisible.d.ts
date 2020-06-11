@@ -1,2 +1,3 @@
-declare function useVisible(current: Element, parent: Element | Window): boolean;
+/// <reference types="react" />
+declare function useVisible(currentElem: React.MutableRefObject<Element | null>): boolean;
 export default useVisible;

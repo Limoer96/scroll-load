@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var BaseOberver = /** @class */ (function () {
-    function BaseOberver(current, parent, setVisible) {
+class BaseOberver {
+    constructor(current, parent, setVisible) {
         this.current = current;
         this.parent = parent;
         this.setVisible = setVisible;
     }
-    return BaseOberver;
-}());
-exports.default = BaseOberver;
+}
+export default BaseOberver;
