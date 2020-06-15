@@ -1,5 +1,5 @@
 import BaseOberver from './BaseObserver'
-import throttle from 'lodash/throttle'
+import throttle from 'lodash.throttle'
 import { IConfig } from '../hooks/useVisible'
 import { getOffset } from '../utils/getOffset'
 import execCallback from '../utils/execCallback'
