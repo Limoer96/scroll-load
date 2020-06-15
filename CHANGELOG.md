@@ -9,3 +9,8 @@
 
 - 修复了全局滚动错误的问题
 - 修复了`window` `resize`后无法正常显示的问题
+
+### 1.1.0
+
+- 使用`IntersectionObserver`重构
+- 修复了依赖
